@@ -32,13 +32,14 @@ public class Vert extends Geometry {
 
     @Override
     public Vector3f calculateIntersection(Ray ray, Vector3f offset, Vector3f rotation, Vector3f scale) {
+        if(isIgnoreRender()) return null;
         //Using Moller Trumbore algorithm
         Vector3f rayOrigin = ray.getOrigin();
         Vector3f rayVector = ray.getDirection();
 
-        Vector3f vertex0 = v0.rotateRYP(rotation.getX(), rotation.getZ(), rotation.getY()).add(offset).multiply(scale);
-        Vector3f vertex1 = v1.rotateRYP(rotation.getX(), rotation.getZ(), rotation.getY()).add(offset).multiply(scale);
-        Vector3f vertex2 = v2.rotateRYP(rotation.getX(), rotation.getZ(), rotation.getY()).add(offset).multiply(scale);
+        Vector3f vertex0 = v0.rotateXYZ(rotation.getX(), rotation.getY(), rotation.getZ()).multiply(scale).add(offset);
+        Vector3f vertex1 = v1.rotateXYZ(rotation.getX(), rotation.getY(), rotation.getZ()).multiply(scale).add(offset);
+        Vector3f vertex2 = v2.rotateXYZ(rotation.getX(), rotation.getY(), rotation.getZ()).multiply(scale).add(offset);
 
         Vector3f edge1;
         Vector3f edge2;
@@ -77,34 +78,15 @@ public class Vert extends Geometry {
         }
     }
 
-    public Vector3f applyRotationMatrix(Vector3f pos, Vector3f rotation){
-        Matrix4x4f mat = new Matrix4x4f(pos.getX(), pos.getY(), pos.getZ(), 1);
-
-        Matrix4x4f rotX = new Matrix4x4f(new float[][]{
-                {1,                                0,                                 0, 0},
-                {0, (float)Math.cos(rotation.getX()), (float)-Math.sin(rotation.getX()), 0},
-                {0, (float)Math.sin(rotation.getX()), (float) Math.cos(rotation.getX()), 0},
-                {0,                                0,                                 0, 1}
-        });
-        Matrix4x4f rotY = new Matrix4x4f(new float[][]{
-                {(float) Math.cos(rotation.getY()), (float)Math.sin(rotation.getY()), 0, 0},
-                {                                0,                                1, 0, 0},
-                {(float)-Math.sin(rotation.getY()), (float)Math.cos(rotation.getY()), 1, 0},
-                {                                0,                                0, 0, 1}
-        });
-        Matrix4x4f rotZ = new Matrix4x4f(new float[][]{
-                {(float)Math.cos(rotation.getZ()), (float)-Math.sin(rotation.getZ()), 0, 0},
-                {(float)Math.sin(rotation.getZ()), (float) Math.cos(rotation.getZ()), 0, 0},
-                {                               0,                                 0, 1, 0},
-                {                               0,                                 0, 0, 0,}
-        });
-
-        Matrix4x4f end = (Matrix4x4f) mat.mul(rotX).mul(rotY).mul(rotZ);
-        return new Vector3f(end.getValue(3, 0), end.getValue(3, 1), end.getValue(3, 2));
-    }
-
     @Override
-    public Vector3f getNormalAt(Vector3f point, Vector3f offset) {
-        return n0;
+    public Vector3f getNormalAt(Vector3f point, Vector3f offset, Vector3f rotation) {
+        Vector3f p0 = v0.rotate(rotation);
+        Vector3f p1 = v1.rotate(rotation);
+        Vector3f p2 = v2.rotate(rotation);
+
+        Vector3f a = p1.subtract(p0);
+        Vector3f b = p2.subtract(p0);
+        Vector3f cross = Vector3f.cross(a, b);
+        return cross.normalize();
     }
 }

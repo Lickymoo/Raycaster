@@ -33,11 +33,14 @@ public abstract class GameObject implements UpdatableTarget {
            geometry.setParent(this);
         }
 
+        calculateEncapsulatingSphere();
+    }
 
+    public void calculateEncapsulatingSphere(){
         //generate encapsulating sphere
         float min = 0;
         float max = 0;
-        for(Geometry geometry : geometries){
+        for(Geometry geometry : getGeometryList()){
             if(geometry instanceof Vert vert){
                 float maxV0, maxV1, maxV2;
                 float minV0, minV1, minV2;
@@ -60,12 +63,16 @@ public abstract class GameObject implements UpdatableTarget {
         }
     }
 
-    public RayHit raycast(Ray ray) {
+    public RayHit raycast(Ray ray){
+        return raycast(ray, false);
+    }
+
+    public RayHit raycast(Ray ray, boolean first) {
         //Calculate if ray hits object at all, if not ignore and dont bother iterating through all vertices
-        if(encapsulatingSphere != null){
-            Vector3f hit = encapsulatingSphere.calculateIntersection(ray, transform.getPosition(), transform.getRotation(), scale);
-            if(hit == null)
+        if(first && encapsulatingSphere != null){
+            if(!encapsulatingSphere.rayIntersects(ray, transform.getPosition(), transform.getRotation(), scale)){
                 return null;
+            }
         }
 
         RayHit closestHit = null;
@@ -96,6 +103,10 @@ public abstract class GameObject implements UpdatableTarget {
 
     public void setScale(float x){
         this.scale = new Vector3f(x, x, x);
+    }
+
+    public void setScale(Vector3f scale){
+        this.scale = scale;
     }
 
     public void setPosition(float x, float y, float z){

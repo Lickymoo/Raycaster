@@ -9,6 +9,7 @@ import com.mitchellg.raycaster.engine.model.target.UpdatableTarget;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -22,10 +23,14 @@ public abstract class GameScene implements UpdatableTarget {
         this.game = game;
     }
 
-    public RayHit raycast(Ray ray) {
+    public RayHit raycast(Ray ray){
+        return raycast(ray, false);
+    }
+
+    public RayHit raycast(Ray ray, boolean first) {
         RayHit closestHit = null;
         for(GameObject object : objectList){
-            RayHit hitPos = object.raycast(ray);
+            RayHit hitPos = object.raycast(ray, first);
 
             if (hitPos != null && (closestHit == null || Vector3f.distance(closestHit.getPosition(), ray.getOrigin()) > Vector3f.distance(hitPos.getPosition(), ray.getOrigin()))) {
                 closestHit = hitPos;
@@ -35,8 +40,6 @@ public abstract class GameScene implements UpdatableTarget {
     }
 
     public void addObjects(GameObject... objects){
-        for(GameObject obj : objects){
-            objectList.add(obj);
-        }
+        objectList.addAll(Arrays.asList(objects));
     }
 }

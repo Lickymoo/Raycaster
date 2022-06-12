@@ -15,7 +15,7 @@ public class RayHit {
         this.ray = ray;
         this.geometry = geometry;
         this.position = position;
-        this.normal = geometry.getNormalAt(position, geometry.getParent().getTransform().getPosition());
+        this.normal = geometry.getNormalAt(position, geometry.getParent().getTransform().getPosition(), geometry.getParent().getTransform().getRotation());
     }
 
 }

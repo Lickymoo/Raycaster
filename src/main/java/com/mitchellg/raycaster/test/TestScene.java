@@ -39,20 +39,20 @@ public class TestScene extends GameScene {
         });
 
         TableObj table = new TableObj();
-        table.setPosition(0, 0, 1);
+        table.setPosition(1, 0, 5);
         table.setScale(0.01f);
-        //this.addObjects(table);
 
         CubeObj cube = new CubeObj();
-        cube.setPosition(2, 0, 3);
+        cube.setPosition(0, 0, 2);
         cube.setScale(1f);
-        cube.setMaterial(new Material(Color.GRAY, 0.05f, 0));
+        cube.setRotation(0, 45, 0);
+        cube.setMaterial(new Material(Color.BLACK, 1f, 0));
 
         SphereObj sphere = new SphereObj(.5f);
-        sphere.setMaterial(new Material(Color.GRAY, 1f, 0));
-        sphere.setPosition(0, 0, 2);
+        sphere.setMaterial(new Material(Color.RED, 0f, 0));
+        sphere.setPosition(0, 0, -1);
 
-        this.addObjects(sphere, cube, plane);
+        this.addObjects(cube, sphere, plane);
 
     }
 

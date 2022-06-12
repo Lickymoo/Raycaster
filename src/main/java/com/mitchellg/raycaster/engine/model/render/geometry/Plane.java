@@ -13,6 +13,7 @@ public class Plane extends Geometry {
 
     @Override
     public Vector3f calculateIntersection(Ray ray, Vector3f offset, Vector3f rotation, Vector3f scale) {
+        if(isIgnoreRender()) return null;
         float t = -(ray.getOrigin().getY()-offset.getY()) / ray.getDirection().getY();
         if (t > 0 && Float.isFinite(t))
         {
@@ -23,7 +24,7 @@ public class Plane extends Geometry {
     }
 
     @Override
-    public Vector3f getNormalAt(Vector3f point, Vector3f offset) {
+    public Vector3f getNormalAt(Vector3f point, Vector3f offset, Vector3f rotation) {
         return new Vector3f(0, 1, 0);
     }
 

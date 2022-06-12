@@ -1,5 +1,6 @@
 package com.mitchellg.raycaster.engine.model.location;
 
+import com.mitchellg.raycaster.engine.model.render.math.Mathf;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -9,6 +10,7 @@ import lombok.ToString;
 @ToString
 public class Vector3f {
     private float x, y, z;
+    private float w = 1;
 
     public Vector3f(){
         this.x = 0;
@@ -20,6 +22,13 @@ public class Vector3f {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    public Vector3f(float x, float y, float z, float w){
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.w = w;
     }
 
     public Vector3f(float i){
@@ -52,6 +61,18 @@ public class Vector3f {
 
     public Vector3f multiply(Vector3f value){
         return new Vector3f(this.x * value.getX(), this.y * value.getY(), this.z * value.getZ());
+    }
+
+    public Vector3f div(Vector3f value){
+        return new Vector3f(this.x / value.getX(), this.y / value.getY(), this.z / value.getZ());
+    }
+
+    public Vector3f div(float scalar){
+        return new Vector3f(this.x / scalar, this.y / scalar, this.z / scalar);
+    }
+
+    public Vector3f div(float x, float y, float z){
+        return new Vector3f(this.x / x, this.y / y, this.z / z);
     }
 
     public Vector3f normalize(){
@@ -120,6 +141,45 @@ public class Vector3f {
 
         return new Vector3f(_x, _y, _z);
     }
+
+    public Vector3f rotate(Vector3f rotation){
+        return rotateXYZ(rotation.getX(), rotation.getY(), rotation.getZ());
+    }
+
+    public Vector3f rotateXYZ(float angleX, float angleY, float angleZ) {
+        return rotateX(angleX).rotateY(angleY).rotateZ(angleZ);
+    }
+
+    public Vector3f rotateX(float angleX){
+        angleX = (float)Math.toRadians(angleX);
+
+        float _y, _z;
+        _y = (float)(y * Math.cos(angleX) - z * Math.sin(angleX));
+        _z = (float)(y * Math.sin(angleX) + z * Math.cos(angleX));
+
+        return new Vector3f(x, _y, _z);
+    }
+
+    public Vector3f rotateY(float angleY){
+        angleY = (float)Math.toRadians(angleY);
+
+        float _z, _x;
+        _z = (float)(z * Math.cos(angleY) - x * Math.sin(angleY));
+        _x = (float)(z * Math.sin(angleY) + x * Math.cos(angleY));
+
+        return new Vector3f(_x, y, _z);
+    }
+
+    public Vector3f rotateZ(float angleZ){
+        angleZ = (float)Math.toRadians(angleZ);
+
+        float _x, _y;
+        _x = (float)(x * Math.cos(angleZ) - y * Math.sin(angleZ));
+        _y = (float)(x * Math.sin(angleZ) + y * Math.cos(angleZ));
+
+        return new Vector3f(_x, _y, z);
+    }
+
 
     public float getMaxAttrib(){
         return Math.max(x, Math.max(y, z));

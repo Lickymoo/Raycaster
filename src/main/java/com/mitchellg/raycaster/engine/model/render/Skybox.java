@@ -16,22 +16,15 @@ public class Skybox {
         sphereImage = new BufferedImage(2,2, BufferedImage.TYPE_INT_RGB);
         loaded = false;
 
+        try(InputStream stream = getClass().getClassLoader().getResourceAsStream(resourceName)){
+            if(stream == null) return;
+            ImageIO.setUseCache(false);
+            sphereImage = ImageIO.read(stream);
 
-        new Thread("Skybox loader") {
-            @Override
-            public void run() {
-                try(InputStream stream = getClass().getClassLoader().getResourceAsStream(resourceName)){
-                    if(stream == null) return;
-                    ImageIO.setUseCache(false);
-                    sphereImage = ImageIO.read(stream);
-                    System.out.println(ImageIO.getCacheDirectory());
-
-                    loaded = true;
-                } catch (IOException | IllegalArgumentException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }.start();
+            loaded = true;
+        } catch (IOException | IllegalArgumentException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public Color getColor(Vector3f d) {

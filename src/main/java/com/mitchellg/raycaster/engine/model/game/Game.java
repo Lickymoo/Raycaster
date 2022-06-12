@@ -2,12 +2,12 @@ package com.mitchellg.raycaster.engine.model.game;
 
 import com.mitchellg.raycaster.engine.GamePreferences;
 import com.mitchellg.raycaster.engine.GameWindow;
+import com.mitchellg.raycaster.engine.model.render.RaycastPipeline;
 import com.mitchellg.raycaster.engine.model.render.Renderer;
 import com.mitchellg.raycaster.engine.model.target.UpdatableTarget;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -30,7 +30,7 @@ public abstract class Game implements UpdatableTarget {
         openWindow();
 
         running = true;
-        renderer = new Renderer(this);
+        renderer = new RaycastPipeline(this);
         gameRunnable = new GameRunnable(this);
         gameRunnable.run();
     }
