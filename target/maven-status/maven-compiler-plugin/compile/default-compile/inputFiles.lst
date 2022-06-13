@@ -3,6 +3,7 @@ E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\engine\model\game\Tr
 E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\engine\model\render\Color.java
 E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\engine\AbsPanel.java
 E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\engine\model\game\GameRunnable.java
+E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\engine\model\render\RaycastPipeline.java
 E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\test\objects\CubeObj.java
 E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\engine\model\render\math\Ray.java
 E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\engine\model\render\geometry\Plane.java
@@ -11,7 +12,6 @@ E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\engine\model\target\
 E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\engine\model\render\PixelData.java
 E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\test\TestScene.java
 E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\engine\model\location\Vector3f.java
-E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\test\objects\RabbitObj.java
 E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\engine\model\render\Material.java
 E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\engine\model\render\math\RayHit.java
 E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\test\TestGame.java
@@ -29,6 +29,9 @@ E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\engine\GamePreferenc
 E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\engine\model\game\GameObject.java
 E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\engine\model\location\Matrix4x4f.java
 E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\test\objects\SphereObj.java
+E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\test\objects\TableObj.java
 E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\engine\model\game\ModelLoader.java
+E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\engine\model\render\GeometryCollection.java
+E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\engine\model\render\math\Mathf.java
 E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\engine\model\render\Renderer.java
 E:\IntelliJ\Raycaster\src\main\java\com\mitchellg\raycaster\engine\model\game\Camera.java

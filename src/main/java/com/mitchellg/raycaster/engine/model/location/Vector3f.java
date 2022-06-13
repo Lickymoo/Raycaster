@@ -51,9 +51,22 @@ public class Vector3f {
         return new Vector3f(this.x + value, this.y + value, this.z + value);
     }
 
+    public Vector3f add(float x, float y, float z){
+        return new Vector3f(this.x + x, this.y + y, this.z + z);
+    }
+
     public Vector3f subtract(Vector3f value){
         return new Vector3f(this.x - value.getX(), this.y - value.getY(), this.z - value.getZ());
     }
+
+    public Vector3f subtract(float value){
+        return new Vector3f(this.x - value, this.y - value, this.z - value);
+    }
+
+    public Vector3f subtract(float x, float y, float z){
+        return new Vector3f(this.x - x, this.y - y, this.z - z);
+    }
+
 
     public Vector3f multiply(float scalar){
         return new Vector3f(this.x * scalar, this.y * scalar, this.z * scalar);
@@ -189,7 +202,7 @@ public class Vector3f {
         return Math.min(x, Math.min(y, z));
     }
 
-    public float[] asArray3f(){
+    public float[] toArray(){
         return new float[]{x, y, z};
     }
 }

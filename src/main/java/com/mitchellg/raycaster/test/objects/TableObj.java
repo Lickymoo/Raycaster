@@ -7,7 +7,7 @@ public class TableObj extends GameObject {
 
     public TableObj(){
         this.setSolids(
-                ModelLoader.loadModel("table.fbx", true)
+                ModelLoader.loadModel("E:\\models\\table.fbx", false)
         );
     }
 

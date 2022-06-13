@@ -1,9 +1,8 @@
 package com.mitchellg.raycaster.engine.model.game;
 
 import com.mitchellg.raycaster.engine.model.location.Vector3f;
-import com.mitchellg.raycaster.engine.model.render.Geometry;
-import com.mitchellg.raycaster.engine.model.render.geometry.Sphere;
-import com.mitchellg.raycaster.engine.model.render.geometry.Vert;
+import com.mitchellg.raycaster.engine.model.render.geometry.Geometry;
+import com.mitchellg.raycaster.engine.model.render.geometry.impl.Vert;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.assimp.*;
 
@@ -59,6 +58,7 @@ public class ModelLoader {
         if(asResource){
             filepath = ModelLoader.class.getClassLoader().getResource(filepath).getPath();
             filepath = filepath.replaceFirst("/", "");
+            System.out.println(filepath);
         }
         AIScene scene = Assimp.aiImportFile(filepath, Assimp.aiProcess_Triangulate);
         if(scene == null) return null;

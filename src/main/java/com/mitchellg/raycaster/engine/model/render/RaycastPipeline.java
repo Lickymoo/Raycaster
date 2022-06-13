@@ -3,6 +3,7 @@ package com.mitchellg.raycaster.engine.model.render;
 import com.aparapi.Kernel;
 import com.mitchellg.raycaster.engine.model.game.*;
 import com.mitchellg.raycaster.engine.model.location.Vector3f;
+import com.mitchellg.raycaster.engine.model.render.geometry.Geometry;
 import com.mitchellg.raycaster.engine.model.render.math.Ray;
 import com.mitchellg.raycaster.engine.model.render.math.RayHit;
 import lombok.Getter;
@@ -25,6 +26,7 @@ public class RaycastPipeline extends Renderer {
     BufferedImage img;
     @Override
     public void render(Graphics graphics) {
+        long startTime = System.nanoTime();
         if(game.getWindow() == null) return;
         if(game.getCurrentScene() == null) return;
 
@@ -32,6 +34,8 @@ public class RaycastPipeline extends Renderer {
         int height = game.getHeight();
 
         img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+        game.getCurrentScene().generateGeometryCollection();
 
         //GPU Kernel
         Kernel kernel = new Kernel() {
@@ -52,6 +56,7 @@ public class RaycastPipeline extends Renderer {
 
         graphics.drawImage(img, 0, 0, null);
         graphics.dispose();
+        //System.out.println((System.nanoTime()-startTime)/1000000 + "ms");
     }
 
     public float[] getNormalizedScreenCoordinates(int x, int y, int width, int height) {
@@ -69,7 +74,7 @@ public class RaycastPipeline extends Renderer {
 
     public PixelData computePixelInfo(GameScene scene, float u, float v){
         Vector3f eyePos = new Vector3f(0, 0, (float) (-1 / Math.tan(Math.toRadians(camera.getFOV() / 2))));
-        Vector3f rayDir = new Vector3f(u, v, 0).subtract(eyePos).normalize().rotateYP(camera.getYaw(), camera.getPitch());
+        Vector3f rayDir = new Vector3f(u, v, 0).subtract(eyePos).normalize().rotateYP(camera.getRotation().getZ(), camera.getRotation().getY());
         Ray ray = new Ray(eyePos.add(camera.getPosition()), rayDir);
 
         RayHit hit = scene.raycast(ray, true);

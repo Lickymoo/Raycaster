@@ -1,7 +1,7 @@
 package com.mitchellg.raycaster.engine.model.render.math;
 
 import com.mitchellg.raycaster.engine.model.location.Vector3f;
-import com.mitchellg.raycaster.engine.model.render.Geometry;
+import com.mitchellg.raycaster.engine.model.render.geometry.Geometry;
 import lombok.Getter;
 
 @Getter

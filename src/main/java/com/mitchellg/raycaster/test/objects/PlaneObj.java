@@ -2,11 +2,12 @@ package com.mitchellg.raycaster.test.objects;
 
 import com.mitchellg.raycaster.engine.model.game.GameObject;
 import com.mitchellg.raycaster.engine.model.location.Vector3f;
-import com.mitchellg.raycaster.engine.model.render.geometry.Plane;
+import com.mitchellg.raycaster.engine.model.render.geometry.impl.Plane;
 
 public class PlaneObj extends GameObject {
     public PlaneObj(float height) {
         this.getTransform().setPosition(new Vector3f(0, height, 0));
+        this.setIgnoreBoundingBox(true);
         this.setSolids(new Plane(this));
     }
 

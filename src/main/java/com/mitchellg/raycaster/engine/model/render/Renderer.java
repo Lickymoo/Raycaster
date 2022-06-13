@@ -2,9 +2,11 @@ package com.mitchellg.raycaster.engine.model.render;
 
 import com.mitchellg.raycaster.engine.model.game.Camera;
 import com.mitchellg.raycaster.engine.model.game.Game;
+import lombok.Getter;
 
 import java.awt.*;
 
+@Getter
 public abstract class Renderer {
     protected final Game game;
     protected final Camera camera;

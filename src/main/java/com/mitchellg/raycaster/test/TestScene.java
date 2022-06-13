@@ -2,6 +2,7 @@ package com.mitchellg.raycaster.test;
 
 import com.mitchellg.raycaster.engine.model.game.Game;
 import com.mitchellg.raycaster.engine.model.game.GameScene;
+import com.mitchellg.raycaster.engine.model.location.Bounds;
 import com.mitchellg.raycaster.engine.model.location.Vector3f;
 import com.mitchellg.raycaster.engine.model.render.Color;
 import com.mitchellg.raycaster.engine.model.render.Light;
@@ -39,25 +40,31 @@ public class TestScene extends GameScene {
         });
 
         TableObj table = new TableObj();
-        table.setPosition(1, 0, 5);
+        table.setPosition(0, -1, 1);
         table.setScale(0.01f);
+        table.setRotation(0, 90, 90);
+        table.setMaterial(new Material(new Color(99,75,44), 0f, 0f));
 
         CubeObj cube = new CubeObj();
-        cube.setPosition(0, 0, 2);
+        cube.setPosition(1, 0, 2);
         cube.setScale(1f);
         cube.setRotation(0, 45, 0);
         cube.setMaterial(new Material(Color.BLACK, 1f, 0));
+        cube.setIgnoreBoundingBox(false);
 
         SphereObj sphere = new SphereObj(.5f);
-        sphere.setMaterial(new Material(Color.RED, 0f, 0));
-        sphere.setPosition(0, 0, -1);
+        sphere.setMaterial(new Material(Color.BLACK, 0f, 1f));
+        sphere.setPosition(0, 0, 2);
 
-        this.addObjects(cube, sphere, plane);
+        this.addObjects(cube, plane);
 
     }
 
-
+    float z = 0;
     @Override
     public void onUpdate() {
+        z += 1;
     }
+
+
 }

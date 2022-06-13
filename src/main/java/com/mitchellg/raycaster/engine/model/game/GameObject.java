@@ -1,13 +1,14 @@
 package com.mitchellg.raycaster.engine.model.game;
 
+import com.mitchellg.raycaster.engine.model.location.Bounds;
 import com.mitchellg.raycaster.engine.model.location.Vector3f;
 import com.mitchellg.raycaster.engine.model.render.Color;
 import com.mitchellg.raycaster.engine.model.render.Material;
-import com.mitchellg.raycaster.engine.model.render.geometry.Sphere;
-import com.mitchellg.raycaster.engine.model.render.geometry.Vert;
+import com.mitchellg.raycaster.engine.model.render.geometry.impl.Box;
+import com.mitchellg.raycaster.engine.model.render.geometry.impl.Vert;
 import com.mitchellg.raycaster.engine.model.render.math.Ray;
 import com.mitchellg.raycaster.engine.model.render.math.RayHit;
-import com.mitchellg.raycaster.engine.model.render.Geometry;
+import com.mitchellg.raycaster.engine.model.render.geometry.Geometry;
 import com.mitchellg.raycaster.engine.model.target.UpdatableTarget;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +20,9 @@ public abstract class GameObject implements UpdatableTarget {
     protected Material material;
     protected Vector3f scale = new Vector3f(1f);
     protected Geometry[] geometryList;
-    protected Sphere encapsulatingSphere;
+
+    protected Box boundingBox;
+    protected boolean ignoreBoundingBox = false;
 
     public GameObject() {
         this.transform = new Transform();
@@ -33,34 +36,20 @@ public abstract class GameObject implements UpdatableTarget {
            geometry.setParent(this);
         }
 
-        calculateEncapsulatingSphere();
+        if(!ignoreBoundingBox)
+        calculateBoundingBox();
     }
 
-    public void calculateEncapsulatingSphere(){
+    public void calculateBoundingBox(){
+        Bounds bounds = new Bounds();
         //generate encapsulating sphere
-        float min = 0;
-        float max = 0;
         for(Geometry geometry : getGeometryList()){
             if(geometry instanceof Vert vert){
-                float maxV0, maxV1, maxV2;
-                float minV0, minV1, minV2;
-
-                maxV0 = vert.getV0().getMaxAttrib();
-                maxV1 = vert.getV1().getMaxAttrib();
-                maxV2 = vert.getV2().getMaxAttrib();
-
-                minV0 = vert.getV0().getMinAttrib();
-                minV1 = vert.getV1().getMinAttrib();
-                minV2 = vert.getV2().getMinAttrib();
-                min = Math.min(min, Math.min(minV0, Math.min(minV1, minV2)));
-                max = Math.max(max, Math.max(maxV0, Math.max(maxV1, maxV2)));
+                bounds.encapsulate(vert.getV0(), vert.getV1(), vert.getV2());
             }
         }
-        float diff = Math.abs((min - max));
-        if(diff > 0){
-            encapsulatingSphere = new Sphere(this, diff);
-            encapsulatingSphere.setIgnoreRender(true);
-        }
+        boundingBox = new Box(this, bounds);
+        //boundingBox.setIgnoreRender(true);
     }
 
     public RayHit raycast(Ray ray){
@@ -69,8 +58,8 @@ public abstract class GameObject implements UpdatableTarget {
 
     public RayHit raycast(Ray ray, boolean first) {
         //Calculate if ray hits object at all, if not ignore and dont bother iterating through all vertices
-        if(first && encapsulatingSphere != null){
-            if(!encapsulatingSphere.rayIntersects(ray, transform.getPosition(), transform.getRotation(), scale)){
+        if(first && !ignoreBoundingBox && boundingBox != null){
+            if(!boundingBox.rayIntersects(ray, transform.getPosition(), transform.getRotation(), scale)){
                 return null;
             }
         }

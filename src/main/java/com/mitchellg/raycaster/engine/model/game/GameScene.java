@@ -1,6 +1,6 @@
 package com.mitchellg.raycaster.engine.model.game;
 
-import com.mitchellg.raycaster.engine.model.location.Vector3f;
+import com.mitchellg.raycaster.engine.model.render.geometry.GeometryCollection;
 import com.mitchellg.raycaster.engine.model.render.Light;
 import com.mitchellg.raycaster.engine.model.render.Skybox;
 import com.mitchellg.raycaster.engine.model.render.math.Ray;
@@ -19,6 +19,8 @@ public abstract class GameScene implements UpdatableTarget {
     protected Light light;
     protected Skybox skybox;
 
+    private GeometryCollection collection;
+
     public GameScene(Game game){
         this.game = game;
     }
@@ -28,18 +30,49 @@ public abstract class GameScene implements UpdatableTarget {
     }
 
     public RayHit raycast(Ray ray, boolean first) {
-        RayHit closestHit = null;
-        for(GameObject object : objectList){
-            RayHit hitPos = object.raycast(ray, first);
+        return collection.raycast(ray, first);
+    }
 
-            if (hitPos != null && (closestHit == null || Vector3f.distance(closestHit.getPosition(), ray.getOrigin()) > Vector3f.distance(hitPos.getPosition(), ray.getOrigin()))) {
-                closestHit = hitPos;
-            }
-        }
-        return closestHit;
+    /*
+    Handler for Geometry occlusion
+    -Oct tree
+     */
+    public void generateGeometryCollection(){
+        collection = new GeometryCollection();
+        collection.setGeometries(objectList);
     }
 
     public void addObjects(GameObject... objects){
         objectList.addAll(Arrays.asList(objects));
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -12,8 +12,19 @@ public class Color {
     private float blue;
 
     public Color(float red, float green, float blue) {
-        if (red > 1F || green > 1F || blue > 1F)
-            throw new IllegalArgumentException("Color parameter(s) outside of expected range");
+        if (red > 1F || green > 1F || blue > 1F) {
+            //Assume in 255 format
+            this.red = red/255f;
+            this.green = green/255f;
+            this.blue = blue/255f;
+
+            //check again
+            if (this.red > 1F || this.green > 1F || this.blue > 1F) {
+                throw new IllegalArgumentException("Color parameter(s) outside of expected range");
+            }
+
+            return;
+        }
 
         if (Float.isNaN(red) || Float.isNaN(green) || Float.isNaN(blue))
             throw new IllegalArgumentException("One or more color parameters are NaN");
